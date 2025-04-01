@@ -95,3 +95,4 @@ wrapt==1.17.2
 xgboost==2.1.4
 gunicorn 
 whitenoise
+pywin32==309; sys_platform == 'win32'
