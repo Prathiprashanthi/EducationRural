@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "EducationRural_Project.onrender.com",  
+    'educationrural.onrender.com'  
 ]
 
 
