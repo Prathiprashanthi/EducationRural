@@ -10,7 +10,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 import random
 import urllib.request
 import urllib.parse
-from eduenv.RazorPayApi import RazorpayClient
+
 
 
 
@@ -668,56 +668,56 @@ def student_feedback(request):
         messages.error(request, 'You need to be logged in to access this page.')
         return redirect('login')
 
+# from ruenv.RazorPayApi import RazorpayClient
+# @csrf_exempt
+# def paymenthandler(request):
+#     if request.method == "POST":
+#         try:
+#             payment_id = request.POST.get('razorpay_payment_id', '')
+#             razorpay_order_id = request.POST.get('razorpay_order_id', '')
+#             signature = request.POST.get('razorpay_signature', '')
+#             params_dict = {
+#                 'razorpay_order_id': razorpay_order_id,
+#                 'razorpay_payment_id': payment_id,
+#                 'razorpay_signature': signature
+#             }
+#             api = RazorpayClient()
+#             result = api.client.utility.verify_payment_signature(params_dict)
+#             if result:
+#                 student_id = request.session.get('student_id_after_login')
+#                 if student_id is None:
+#                     return HttpResponseBadRequest('Student ID not found in session')
 
-@csrf_exempt
-def paymenthandler(request):
-    if request.method == "POST":
-        try:
-            payment_id = request.POST.get('razorpay_payment_id', '')
-            razorpay_order_id = request.POST.get('razorpay_order_id', '')
-            signature = request.POST.get('razorpay_signature', '')
-            params_dict = {
-                'razorpay_order_id': razorpay_order_id,
-                'razorpay_payment_id': payment_id,
-                'razorpay_signature': signature
-            }
-            api = RazorpayClient()
-            result = api.client.utility.verify_payment_signature(params_dict)
-            if result:
-                student_id = request.session.get('student_id_after_login')
-                if student_id is None:
-                    return HttpResponseBadRequest('Student ID not found in session')
+#                 print(student_id, "Student ID")
+#                 try:
+#                     user = StudentRegModel.objects.get(pk=student_id)
+#                 except StudentRegModel.DoesNotExist:
+#                     return HttpResponseBadRequest('Student not found')
 
-                print(student_id, "Student ID")
-                try:
-                    user = StudentRegModel.objects.get(pk=student_id)
-                except StudentRegModel.DoesNotExist:
-                    return HttpResponseBadRequest('Student not found')
-
-                cart = get_object_or_404(CartModel, cart_user=user)
-                fee = cart.cart_booking.price
-                amount = fee * 100  # Convert to paisa
-                try:
-                    api.client.payment.capture(payment_id, amount)
-                    cart = get_object_or_404(CartModel, cart_user=user)
-                    StudentCourses.objects.create(
-                        student=user,
-                        course=cart.cart_booking,
-                        amount=fee,
-                        payment_status="Successful",
-                        payment_id=payment_id,
-                        order_id=razorpay_order_id
-                    )
-                    messages.success(request, 'Payment successfully completed')
-                    return redirect('my_courses')
-                except Exception as e:
-                    messages.error(request, 'Payment Failed: ' + str(e))
-                    return redirect('student_courses')
-            else:
-                messages.error(request, 'Signature verification failed')
-                return redirect('student_courses')
-        except Exception as e:
-            print("Error:", e)
-            return HttpResponseBadRequest('An error occurred during payment processing')
-    else:
-        return HttpResponseBadRequest('Only POST requests are allowed')
+#                 cart = get_object_or_404(CartModel, cart_user=user)
+#                 fee = cart.cart_booking.price
+#                 amount = fee * 100  # Convert to paisa
+#                 try:
+#                     api.client.payment.capture(payment_id, amount)
+#                     cart = get_object_or_404(CartModel, cart_user=user)
+#                     StudentCourses.objects.create(
+#                         student=user,
+#                         course=cart.cart_booking,
+#                         amount=fee,
+#                         payment_status="Successful",
+#                         payment_id=payment_id,
+#                         order_id=razorpay_order_id
+#                     )
+#                     messages.success(request, 'Payment successfully completed')
+#                     return redirect('my_courses')
+#                 except Exception as e:
+#                     messages.error(request, 'Payment Failed: ' + str(e))
+#                     return redirect('student_courses')
+#             else:
+#                 messages.error(request, 'Signature verification failed')
+#                 return redirect('student_courses')
+#         except Exception as e:
+#             print("Error:", e)
+#             return HttpResponseBadRequest('An error occurred during payment processing')
+#     else:
+#         return HttpResponseBadRequest('Only POST requests are allowed')
