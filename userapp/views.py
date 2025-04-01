@@ -10,7 +10,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 import random
 import urllib.request
 import urllib.parse
-#from EducationRural_Project.eduenv.RazorPayApi import RazorpayClient
+from EducationRural_Project.eduenv.RazorPayApi import RazorpayClient
 
 
 
