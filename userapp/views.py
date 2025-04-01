@@ -10,7 +10,10 @@ from django.utils.datastructures import MultiValueDictKeyError
 import random
 import urllib.request
 import urllib.parse
-from Education_rural_env.RazorPayApi import RazorpayClient
+#from EducationRural_Project.eduenv.RazorPayApi import RazorpayClient
+
+
+
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseBadRequest,HttpResponse
 from django.db.models import Count
